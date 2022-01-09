@@ -4,7 +4,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 # Description
 
-This project will hel the user manage his/her expenses. It will allow them to add, delete, and update their expenses. The user will also have the ability to filter their expenses by year.
+This project will help the user manage his/her expenses. It will allow them to add, delete, and update their expenses. The user will also have the ability to filter their expenses by year.
 
 # Technologies
 
