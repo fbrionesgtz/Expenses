@@ -9,7 +9,3 @@ This project will hel the user manage his/her expenses. It will allow them to ad
 # Technologies
 
 React.js
-
-# Credits
-
- This app is part of the React - The Complete Guide (incl Hooks, React Router, Redux) by Maximilian Schwarzmüller
