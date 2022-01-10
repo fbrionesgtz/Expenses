@@ -8,7 +8,8 @@ const NewExpense = (props) => {
     const saveExpenseDataHandler = (enteredExpenseData) => {
       const expenseData = {
           ...enteredExpenseData,
-          id: Math.random().toString()
+          id: Math.random().toString(),
+          amount: parseFloat(enteredExpenseData.amount)
       }
       props.onAddExpense(expenseData);
       setShowForm(false);
