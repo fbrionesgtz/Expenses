@@ -6,7 +6,6 @@ import ExpensesFilter from "./ExpensesFilter";
 import ExpensesChart from "./ExpensesChart";
 import {useState} from "react";
 
-
 function Expenses(props) {
     const [selectedYear, setSelectedYear] = useState("2022");
 
@@ -18,6 +17,14 @@ function Expenses(props) {
         return expense.date.getFullYear() === parseInt(selectedYear);
     });
 
+    const handleDelete = (expense) => {
+        props.onDelete(expense);
+    };
+
+    const handleEdit = (expense) => {
+        props.onEdit(expense);
+    };
+
     return (
         <div>
             <Card className='expenses'>
@@ -26,7 +33,13 @@ function Expenses(props) {
                     onYearChange={handleSelectYear}
                 />
                 <ExpensesChart expenses={filterExpensesByYear}/>
-                <ExpensesList expenses={filterExpensesByYear}/>
+                <ExpensesList
+                    expenses={filterExpensesByYear}
+                    onDelete={handleDelete}
+                    onEdit={handleEdit}
+                    toggleDelete={props.toggleDelete}
+                    toggleEdit={props.toggleEdit}
+                />
             </Card>
         </div>
     );

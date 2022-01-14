@@ -35,6 +35,24 @@
     border-radius: 12px;
 }
 
+.expense-item__icon-btn {
+    height: fit-content;
+    width: fit-content;
+    background-color: transparent;
+    transition: ease-in-out;
+    border: none;
+    display: none;
+}
+
+.expense-item__icon-btn.show {
+    display: block;
+}
+
+.expense-item__icon-btn:hover {
+    cursor: pointer;
+    transform: scale(1.2);
+}
+
 @media (min-width: 580px) {
     .expense-item__description {
         flex-direction: row;

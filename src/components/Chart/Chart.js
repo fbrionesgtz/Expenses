@@ -3,7 +3,11 @@ import "./Chart.css";
 
 const Chart = (props) => {
     const values = props.dataPoints.map(dataPoint => dataPoint.value);
-    const totalMax = Math.max(...values);
+
+    let totalMax = 0;
+    for (let value of values) {
+        totalMax += parseFloat(value);
+    }
 
     return <div className="chart">
         {props.dataPoints.map((dataPoint, index) => (
