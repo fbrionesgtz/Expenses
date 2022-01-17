@@ -9,13 +9,13 @@ import {useState} from "react";
 function Expenses(props) {
     const [selectedYear, setSelectedYear] = useState("2022");
 
-    const handleSelectYear = (selectedYear) => {
-        setSelectedYear(selectedYear);
-    };
-
     const filterExpensesByYear = props.expenses.filter((expense) => {
         return expense.date.getFullYear() === parseInt(selectedYear);
     });
+
+    const handleSelectYear = (selectedYear) => {
+        setSelectedYear(selectedYear);
+    };
 
     const handleDelete = (expense) => {
         props.onDelete(expense);
@@ -23,6 +23,10 @@ function Expenses(props) {
 
     const handleEdit = (expense) => {
         props.onEdit(expense);
+    };
+
+    const handleGetId = (id) => {
+        props.onGetId(id);
     };
 
     return (
@@ -35,10 +39,11 @@ function Expenses(props) {
                 <ExpensesChart expenses={filterExpensesByYear}/>
                 <ExpensesList
                     expenses={filterExpensesByYear}
-                    onDelete={handleDelete}
-                    onEdit={handleEdit}
                     toggleDelete={props.toggleDelete}
                     toggleEdit={props.toggleEdit}
+                    onDelete={handleDelete}
+                    onEdit={handleEdit}
+                    onGetId={handleGetId}
                 />
             </Card>
         </div>

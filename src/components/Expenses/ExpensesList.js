@@ -10,6 +10,10 @@ const ExpensesList = (props) => {
         props.onEdit(expense);
     };
 
+    const handleGetId = (id) => {
+        props.onGetId(id);
+    };
+
     if (props.expenses.length === 0) {
         return <h2 className="expenses-list__fallback">No expenses found.</h2>;
     }
@@ -22,10 +26,11 @@ const ExpensesList = (props) => {
                 title={expense.title}
                 amount={expense.amount}
                 date={expense.date}
-                onDelete={handleDelete}
-                onEdit={handleEdit}
                 toggleDelete={props.toggleDelete}
                 toggleEdit={props.toggleEdit}
+                onDelete={handleDelete}
+                onEdit={handleEdit}
+                onGetId={handleGetId}
             />))}
     </ul>;
 }

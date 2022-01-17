@@ -4,15 +4,28 @@ import {useState} from "react";
 
 const NewExpense = (props) => {
     const [showForm, setShowForm] = useState(false);
+    const [expenseToEdit, setExpenseToEdit] = useState({
+        id: "",
+        title: "",
+        amount: "",
+        date: ""
+    });
 
-    const saveExpenseDataHandler = (enteredExpenseData) => {
-      const expenseData = {
-          ...enteredExpenseData,
-          id: Math.random().toString(),
-          amount: parseFloat(enteredExpenseData.amount)
-      }
-      props.onAddExpense(expenseData);
-      setShowForm(false);
+    const saveExpenseDataHandler = (enteredExpenseData, toUpdate) => {
+        const expenseDataToAdd = {
+            ...enteredExpenseData,
+            id: Math.random().toString(),
+            amount: parseFloat(enteredExpenseData.amount)
+        }
+
+        const expenseDataToUpdate = {
+            ...enteredExpenseData,
+            id: props.expenseId,
+            amount: parseFloat(enteredExpenseData.amount)
+        }
+
+        !toUpdate ? props.onAddExpense(expenseDataToAdd) : props.onUpdateExpenseData(expenseDataToUpdate);
+        setShowForm(false);
     };
 
     const handleCancel = () => {
@@ -20,10 +33,11 @@ const NewExpense = (props) => {
     };
 
     const handleAddNewExpense = () => {
-      setShowForm(true);
+        setShowForm(true);
     };
 
-    if(props.editExpenseData !== undefined && !showForm) {
+    if (props.editExpenseData !== undefined && expenseToEdit.id !== props.editExpenseData.id) {
+        setExpenseToEdit(props.editExpenseData);
         setShowForm(true);
     }
 

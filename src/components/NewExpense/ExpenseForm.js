@@ -5,22 +5,29 @@ const ExpenseForm = (props) => {
     const [enteredTitle, setEnteredTitle] = useState("");
     const [enteredAmount, setEnteredAmount] = useState("");
     const [enteredDate, setEnteredDate] = useState("");
+    const [buttonText, setButtonText] = useState("Add Expense");
     const [dataGathered, setDataGathered] = useState(false);
-    // const [userInput, setUserInput] = useState({
-    //     enteredTitle: "",
-    //     enteredAmount: "",
-    //     enteredDate: ""
-    // });
+    const [expenseToEdit, setExpenseToEdit] = useState({
+        id: "",
+        title: "",
+        amount: "",
+        date: ""
+    });
+
+    const clearFormHandler = () => {
+        setEnteredTitle("");
+        setEnteredAmount("");
+        setEnteredDate("");
+    };
+
+    const populateForm = (expense) => {
+        setEnteredTitle(expense.title);
+        setEnteredAmount(expense.amount);
+        setEnteredDate(expense.date);
+    }
 
     const titleChangeHandler = (e) => {
         setEnteredTitle(e.target.value);
-        // setUserInput({
-        //     ...userInput,
-        //     enteredTitle: e.target.value
-        // });
-        // setUserInput((prevState) => {
-        //    return {...prevState, enteredTitle: e.target.value};
-        // });
     };
 
     const amountChangeHandler = (e) => {
@@ -40,19 +47,18 @@ const ExpenseForm = (props) => {
             date: new Date(enteredDate)
         };
 
-        props.onSaveExpenseData(expenseData);
-        setEnteredTitle("");
-        setEnteredAmount("");
-        setEnteredDate("");
+        props.onSaveExpenseData(expenseData, dataGathered);
+        setDataGathered(false);
+        setButtonText("Add Expense");
+        clearFormHandler();
     };
 
-    if (props.editExpenseData !== undefined && !dataGathered) {
+    if (expenseToEdit.id !== props.editExpenseData.id) {
         setDataGathered(true);
-        setEnteredTitle(props.editExpenseData.title);
-        setEnteredDate(props.editExpenseData.date);
-        setEnteredAmount(props.editExpenseData.amount);
-
-        console.log(props.editExpenseData.date);
+        setButtonText("Edit Expense");
+        setExpenseToEdit(props.editExpenseData);
+        clearFormHandler();
+        populateForm(props.editExpenseData);
     }
 
     return (
@@ -81,7 +87,6 @@ const ExpenseForm = (props) => {
                     <input
                         type="date"
                         min="2019-01-01"
-                        max="2022-12-31"
                         value={enteredDate}
                         onChange={dateChangeHandler}
                     />
@@ -89,7 +94,7 @@ const ExpenseForm = (props) => {
             </div>
             <div className="new-expense__actions">
                 <button type="button" onClick={props.onCancel}>Cancel</button>
-                <button type="submit">Add Expense</button>
+                <button type="submit">{buttonText}</button>
             </div>
         </form>
     );

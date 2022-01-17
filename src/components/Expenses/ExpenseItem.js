@@ -13,6 +13,7 @@ const ExpenseItem = (props) => {
     const handleEdit = (expense) => {
         expense = props.expense;
         props.onEdit(expense);
+        props.onGetId(expense.id);
     };
 
     return (
@@ -25,13 +26,13 @@ const ExpenseItem = (props) => {
                 </div>
                 <button
                     className={`expense-item__icon-btn ${props.toggleDelete ? "show" : ""}`}
-                    type='submit'
+                    type='button'
                     onClick={handleDelete}>
                     <IconX height="2em" width="2em" color="white" strokeWidth="0.3em"/>
                 </button>
                 <button
                     className={`expense-item__icon-btn ${props.toggleEdit ? "show" : ""}`}
-                    type='submit'
+                    type='button'
                     onClick={handleEdit}>
                     <IconEdit height="2em" width="2em" color="white" strokeWidth="0.2em"/>
                 </button>

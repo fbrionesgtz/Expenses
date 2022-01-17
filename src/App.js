@@ -30,18 +30,32 @@ const DUMMY_EXPENSES = [
     }
 ];
 
-function App(props) {
+function App() {
     const [expenses, setExpenses] = useState(DUMMY_EXPENSES);
     const [action, setAction] = useState();
     const [toggleDelete, setToggleDelete] = useState(false);
     const [toggleEdit, setToggleEdit] = useState(false);
     const [expenseToEdit, setExpenseToEdit] = useState();
+    const [expenseId, setExpenseId] = useState();
 
     const addExpenseHandler = expense => {
         // setExpenses([expense, ...expenses]);
         setExpenses((prevExpenses) => {
             return [...prevExpenses, expense];
         });
+    };
+
+    const updateExpenseHandler = expense => {
+        expenses.forEach(currentExpense => {
+            if (expense.id === currentExpense.id) {
+                handleDelete(currentExpense);
+                addExpenseHandler(expense);
+            }
+        });
+    }
+
+    const handleGetId = (id) => {
+        setExpenseId(id);
     };
 
     const handleDelete = expense => {
@@ -55,7 +69,7 @@ function App(props) {
     };
 
     const showDeleteIcon = (checked) => {
-        if(checked){
+        if (checked) {
             setToggleDelete(true);
         } else {
             setToggleDelete(false);
@@ -63,7 +77,7 @@ function App(props) {
     };
 
     const showEditIcon = (checked) => {
-        if(checked){
+        if (checked) {
             setToggleEdit(true);
         } else {
             setToggleEdit(false);
@@ -72,21 +86,21 @@ function App(props) {
 
     const handleToggle = (checked, action) => {
         if (action === "delete" && checked) {
-            if(toggleEdit){
+            if (toggleEdit) {
                 showEditIcon(false);
             }
             setAction(action);
             showDeleteIcon(checked);
-        } else if(action === "delete" && !checked){
+        } else if (action === "delete" && !checked) {
             setAction("");
             showDeleteIcon(checked);
-        }else if (action === "edit" && checked) {
-            if(toggleDelete){
+        } else if (action === "edit" && checked) {
+            if (toggleDelete) {
                 showDeleteIcon(false);
             }
             setAction(action);
             showEditIcon(checked);
-        } else if(action === "edit" && !checked){
+        } else if (action === "edit" && !checked) {
             setAction("");
             showEditIcon(checked);
         }
@@ -99,7 +113,9 @@ function App(props) {
                 action={action}
             />
             <NewExpense
+                expenseId={expenseId}
                 onAddExpense={addExpenseHandler}
+                onUpdateExpenseData={updateExpenseHandler}
                 editExpenseData={expenseToEdit}
             />
             <Expenses
@@ -108,6 +124,7 @@ function App(props) {
                 toggleEdit={toggleEdit}
                 onDelete={handleDelete}
                 onEdit={handleEdit}
+                onGetId={handleGetId}
             />
         </div>
     );
