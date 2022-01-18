@@ -1,15 +1,9 @@
 import "./NewExpense.css";
 import ExpenseForm from "./ExpenseForm";
-import {useState} from "react";
+import {useState, useEffect} from "react";
 
 const NewExpense = (props) => {
     const [showForm, setShowForm] = useState(false);
-    const [expenseToEdit, setExpenseToEdit] = useState({
-        id: "",
-        title: "",
-        amount: "",
-        date: ""
-    });
 
     const saveExpenseDataHandler = (enteredExpenseData, toUpdate) => {
         const expenseDataToAdd = {
@@ -36,10 +30,16 @@ const NewExpense = (props) => {
         setShowForm(true);
     };
 
-    if (props.editExpenseData !== undefined && expenseToEdit.id !== props.editExpenseData.id) {
-        setExpenseToEdit(props.editExpenseData);
+    const setExpenseToEditHandler = (value) => {
+        props.onSetExpenseToEdit(value);
+    };
+
+    useEffect(() => {
+        if (props.editExpenseData === undefined) {
+            return;
+        }
         setShowForm(true);
-    }
+    }, [props.editExpenseData]);
 
     return (
         <div className="new-expense">
@@ -47,6 +47,7 @@ const NewExpense = (props) => {
                 <ExpenseForm
                     onSaveExpenseData={saveExpenseDataHandler}
                     onCancel={handleCancel}
+                    onSetExpenseToEdit={setExpenseToEditHandler}
                     editExpenseData={props.editExpenseData}
                 />
             }

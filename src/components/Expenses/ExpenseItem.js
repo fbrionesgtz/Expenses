@@ -1,8 +1,8 @@
 import ExpenseDate from './ExpenseDate';
 import "./ExpenseItem.css";
 import Card from "../UI/Card";
-import IconX from "../IconsComponents/IconX";
 import IconEdit from "../IconsComponents/IconEdit";
+import IconTrash from "../IconsComponents/IconTrash";
 
 const ExpenseItem = (props) => {
     const handleDelete = (expense) => {
@@ -28,7 +28,7 @@ const ExpenseItem = (props) => {
                     className={`expense-item__icon-btn ${props.toggleDelete ? "show" : ""}`}
                     type='button'
                     onClick={handleDelete}>
-                    <IconX height="2em" width="2em" color="white" strokeWidth="0.3em"/>
+                    <IconTrash height="2em" width="2em" color="white" strokeWidth="0.17em"/>
                 </button>
                 <button
                     className={`expense-item__icon-btn ${props.toggleEdit ? "show" : ""}`}

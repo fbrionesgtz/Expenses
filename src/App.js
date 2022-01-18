@@ -1,7 +1,8 @@
+import React from "react";
 import Expenses from "./components/Expenses/Expenses";
 import NewExpense from "./components/NewExpense/NewExpense";
+import Menu from "./components/Menu/Menu";
 import {useState} from "react";
-import Menu from "./components/Navigation/Menu";
 
 const DUMMY_EXPENSES = [
     {
@@ -107,7 +108,7 @@ function App() {
     };
 
     return (
-        <div>
+        <React.Fragment>
             <Menu
                 onToggle={handleToggle}
                 action={action}
@@ -116,6 +117,7 @@ function App() {
                 expenseId={expenseId}
                 onAddExpense={addExpenseHandler}
                 onUpdateExpenseData={updateExpenseHandler}
+                onSetExpenseToEdit={setExpenseToEdit}
                 editExpenseData={expenseToEdit}
             />
             <Expenses
@@ -126,7 +128,7 @@ function App() {
                 onEdit={handleEdit}
                 onGetId={handleGetId}
             />
-        </div>
+        </React.Fragment>
     );
 }
 

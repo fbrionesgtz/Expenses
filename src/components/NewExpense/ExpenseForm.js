@@ -1,18 +1,12 @@
 import "./ExpenseForm.css";
-import {useState} from "react";
+import {useState, useEffect} from "react";
 
 const ExpenseForm = (props) => {
     const [enteredTitle, setEnteredTitle] = useState("");
     const [enteredAmount, setEnteredAmount] = useState("");
     const [enteredDate, setEnteredDate] = useState("");
     const [buttonText, setButtonText] = useState("Add Expense");
-    const [dataGathered, setDataGathered] = useState(false);
-    const [expenseToEdit, setExpenseToEdit] = useState({
-        id: "",
-        title: "",
-        amount: "",
-        date: ""
-    });
+    const [dataGathered, setDataGathered] = useState();
 
     const clearFormHandler = () => {
         setEnteredTitle("");
@@ -21,10 +15,16 @@ const ExpenseForm = (props) => {
     };
 
     const populateForm = (expense) => {
+        console.log("form populated");
         setEnteredTitle(expense.title);
         setEnteredAmount(expense.amount);
         setEnteredDate(expense.date);
     }
+
+    const cancelHandler = () => {
+        clearFormHandler();
+        props.onCancel();
+    };
 
     const titleChangeHandler = (e) => {
         setEnteredTitle(e.target.value);
@@ -53,13 +53,20 @@ const ExpenseForm = (props) => {
         clearFormHandler();
     };
 
-    if (expenseToEdit.id !== props.editExpenseData.id) {
-        setDataGathered(true);
-        setButtonText("Edit Expense");
-        setExpenseToEdit(props.editExpenseData);
-        clearFormHandler();
-        populateForm(props.editExpenseData);
-    }
+    useEffect(() => {
+        if (props.editExpenseData === undefined) {
+            return;
+        } else {
+            setDataGathered(true);
+            setButtonText("Edit Expense");
+            clearFormHandler();
+            populateForm(props.editExpenseData);
+        }
+
+        return () => {
+            props.onSetExpenseToEdit(undefined);
+        }
+    }, [props.editExpenseData]);
 
     return (
         <form onSubmit={submitHandler}>
@@ -93,7 +100,7 @@ const ExpenseForm = (props) => {
                 </div>
             </div>
             <div className="new-expense__actions">
-                <button type="button" onClick={props.onCancel}>Cancel</button>
+                <button type="button" onClick={cancelHandler}>Cancel</button>
                 <button type="submit">{buttonText}</button>
             </div>
         </form>
