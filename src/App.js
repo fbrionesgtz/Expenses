@@ -38,6 +38,7 @@ function App() {
     const [toggleEdit, setToggleEdit] = useState(false);
     const [expenseToEdit, setExpenseToEdit] = useState();
     const [expenseId, setExpenseId] = useState();
+    const [wasDeleted, setWasDeleted] = useState(false);
 
     const addExpenseHandler = expense => {
         // setExpenses([expense, ...expenses]);
@@ -60,6 +61,7 @@ function App() {
     };
 
     const handleDelete = expense => {
+        setWasDeleted(true);
         setExpenses(expenses.filter(e => {
             return e.id !== expense.id;
         }));
@@ -117,8 +119,10 @@ function App() {
                 expenseId={expenseId}
                 onAddExpense={addExpenseHandler}
                 onUpdateExpenseData={updateExpenseHandler}
-                onSetExpenseToEdit={setExpenseToEdit}
                 editExpenseData={expenseToEdit}
+                onSetExpenseToEdit={setExpenseToEdit}
+                wasDeleted={wasDeleted}
+                onSetWasDeleted={setWasDeleted}
             />
             <Expenses
                 expenses={expenses}

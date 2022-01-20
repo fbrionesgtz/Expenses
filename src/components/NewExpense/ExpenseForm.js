@@ -15,7 +15,6 @@ const ExpenseForm = (props) => {
     };
 
     const populateForm = (expense) => {
-        console.log("form populated");
         setEnteredTitle(expense.title);
         setEnteredAmount(expense.amount);
         setEnteredDate(expense.date);

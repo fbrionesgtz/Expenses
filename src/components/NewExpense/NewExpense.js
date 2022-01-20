@@ -41,6 +41,16 @@ const NewExpense = (props) => {
         setShowForm(true);
     }, [props.editExpenseData]);
 
+    useEffect(() => {
+        if (props.wasDeleted) {
+            setShowForm(false);
+        }
+
+        return () => {
+            props.onSetWasDeleted(false);
+        }
+    }, [props.wasDeleted]);
+
     return (
         <div className="new-expense">
             {(!showForm) ? <button onClick={handleAddNewExpense}>Add New Expense</button> :
