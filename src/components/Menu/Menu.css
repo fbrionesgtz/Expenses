@@ -1,48 +1,42 @@
-:root {
-    --icon-height: "2.5em";
-}
-
 .menu {
-    position: fixed;
-    top: 0;
-    right: 0;
     width: max-content;
     height: max-content;
 }
 
-.menu-open {
-    position: fixed;
-    top: 0;
-    right: 0;
-    background-color: #2a2a2a73;
-    padding: 1rem 2rem;
-    min-height: 100vh;
-    z-index: 9999;
-}
-
 .menu button {
+     position: absolute;
+     top: 0;
+     right: 0;
+     height: fit-content;
+     width: fit-content;
+     background-color: transparent;
+     transition: ease-in-out;
+     border: none;
+ }
+
+.menu-open {
     position: absolute;
     top: 0;
     right: 0;
-    height: fit-content;
-    width: fit-content;
-    background-color: transparent;
-    transition: ease-in-out;
-    border: none;
+    background-color: #2a2a2a73;
+    padding: 2.5rem 2rem;
+    min-height: 100vh;
+    z-index: 9999;
+    animation: slide-in 250ms ease;
+}
 
+@keyframes slide-in {
+    from {right: -100%;}
+    to {right: 0}
 }
 
 .menu-option {
     display: flex;
 }
 
-.menu-open:first-child {
-    margin-top: var(--icon-height);
-}
-
 .menu-option label {
     font-size: 1rem;
     flex: 1;
-    margin: 0 1rem;
+    margin: 0.25rem 1rem;
     color: white;
 }
