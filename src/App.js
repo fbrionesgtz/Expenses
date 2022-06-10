@@ -2,48 +2,54 @@ import React from "react";
 import Expenses from "./components/Expenses/Expenses";
 import NewExpense from "./components/NewExpense/NewExpense";
 import Menu from "./components/Menu/Menu";
-import {useState} from "react";
-
-const DUMMY_EXPENSES = [
-    {
-        id: 1,
-        title: 'Toilet Paper',
-        amount: 94.12,
-        date: new Date(2020, 7, 14),
-    },
-    {
-        id: 2,
-        title: 'New TV',
-        amount: 799.49,
-        date: new Date(2021, 2, 12)
-    },
-    {
-        id: 3,
-        title: 'Car Insurance',
-        amount: 294.67,
-        date: new Date(2021, 2, 28),
-    },
-    {
-        id: 4,
-        title: 'New Desk (Wooden)',
-        amount: 450,
-        date: new Date(2021, 5, 12),
-    }
-];
+import {useState, useEffect} from "react";
+import useHttp from "./hooks/use-http";
 
 function App() {
-    const [expenses, setExpenses] = useState(DUMMY_EXPENSES);
+    const [expenses, setExpenses] = useState([]);
     const [action, setAction] = useState();
     const [toggleDelete, setToggleDelete] = useState(false);
     const [toggleEdit, setToggleEdit] = useState(false);
     const [expenseToEdit, setExpenseToEdit] = useState();
     const [expenseId, setExpenseId] = useState();
     const [wasDeleted, setWasDeleted] = useState(false);
+    const {sendRequest} = useHttp();
+
+    useEffect(() => {
+        const transformExpenses = (expenses) => {
+            let transformedExpenses = [];
+            for (const key in expenses) {
+                const [year, month, day] = expenses[key].date.split(",");
+
+                transformedExpenses.push({
+                    id: expenses[key].id,
+                    title: expenses[key].title,
+                    amount: expenses[key].amount,
+                    date: new Date(parseInt(year), parseInt(month), parseInt(day))
+                });
+            }
+            setExpenses(transformedExpenses);
+        }
+        sendRequest({url: "https://expenses-4b105-default-rtdb.firebaseio.com/expenses.json"}, transformExpenses);
+    }, [sendRequest]);
 
     const addExpenseHandler = expense => {
-        // setExpenses([expense, ...expenses]);
         setExpenses((prevExpenses) => {
             return [...prevExpenses, expense];
+        });
+
+        sendRequest({
+            url: "https://expenses-4b105-default-rtdb.firebaseio.com/expenses.json",
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: {
+                id: expense.id,
+                title: expense.title,
+                amount: expense.amount,
+                date: `${expense.date.getFullYear()},${expense.date.getMonth()},${expense.date.getDay()}`
+            }
         });
     };
 
@@ -52,6 +58,20 @@ function App() {
             if (expense.id === currentExpense.id) {
                 handleDelete(currentExpense);
                 addExpenseHandler(expense);
+            }
+        });
+
+        sendRequest({
+            url: `https://expenses-4b105-default-rtdb.firebaseio.com/expenses/${expense.id}.json`,
+            method: "PUT",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: {
+                id: expense.id,
+                title: expense.title,
+                amount: expense.amount,
+                date: `${expense.date.getFullYear()},${expense.date.getMonth()},${expense.date.getDay()}`
             }
         });
     }
@@ -65,6 +85,14 @@ function App() {
         setExpenses(expenses.filter(e => {
             return e.id !== expense.id;
         }));
+
+        sendRequest({
+            url: `https://expenses-4b105-default-rtdb.firebaseio.com/expenses/${expense.id}.json`,
+            method: "DELETE",
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
     };
 
     const handleEdit = expense => {

@@ -8,7 +8,7 @@ const NewExpense = (props) => {
     const saveExpenseDataHandler = (enteredExpenseData, toUpdate) => {
         const expenseDataToAdd = {
             ...enteredExpenseData,
-            id: Math.random().toString(),
+            id: Date.now(),
             amount: parseFloat(enteredExpenseData.amount)
         }
 
