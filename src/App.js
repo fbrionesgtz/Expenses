@@ -40,15 +40,17 @@ function App() {
 
         sendRequest({
             url: "https://expenses-4b105-default-rtdb.firebaseio.com/expenses.json",
-            method: "POST",
+            method: "PATCH",
             headers: {
                 'Content-Type': 'application/json'
             },
             body: {
-                id: expense.id,
-                title: expense.title,
-                amount: expense.amount,
-                date: `${expense.date.getFullYear()},${expense.date.getMonth()},${expense.date.getDay()}`
+                [expense.id]: {
+                    id: expense.id,
+                    title: expense.title,
+                    amount: expense.amount,
+                    date: `${expense.date.getFullYear()},${expense.date.getMonth()},${expense.date.getDay()}`
+                }
             }
         });
     };
@@ -88,10 +90,7 @@ function App() {
 
         sendRequest({
             url: `https://expenses-4b105-default-rtdb.firebaseio.com/expenses/${expense.id}.json`,
-            method: "DELETE",
-            headers: {
-                'Content-Type': 'application/json'
-            }
+            method: "DELETE"
         });
     };
 
