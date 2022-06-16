@@ -6,6 +6,7 @@ This project will help the user manage his/her expenses. It will allow them to a
 
 ## Technologies
 * React.js
+* Firebase
 
 ## Installation
 1. Clone the repo
