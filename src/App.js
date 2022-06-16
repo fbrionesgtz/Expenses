@@ -56,6 +56,7 @@ function App() {
     };
 
     const updateExpenseHandler = expense => {
+
         expenses.forEach(currentExpense => {
             if (expense.id === currentExpense.id) {
                 handleDelete(currentExpense);

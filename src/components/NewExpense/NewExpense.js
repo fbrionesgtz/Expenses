@@ -1,6 +1,8 @@
 import "./NewExpense.css";
+import "../UI/Button/Button.css";
 import ExpenseForm from "./ExpenseForm";
 import {useState, useEffect} from "react";
+import Button from "../UI/Button/Button";
 
 const NewExpense = (props) => {
     const [showForm, setShowForm] = useState(false);
@@ -53,7 +55,12 @@ const NewExpense = (props) => {
 
     return (
         <div className="new-expense">
-            {(!showForm) ? <button onClick={handleAddNewExpense}>Add New Expense</button> :
+            {(!showForm) ?
+                <Button
+                    onClick={handleAddNewExpense}
+                    content="Add New Expense"
+                    classes="btnPrimary"
+                /> :
                 <ExpenseForm
                     onSaveExpenseData={saveExpenseDataHandler}
                     onCancel={handleCancel}
