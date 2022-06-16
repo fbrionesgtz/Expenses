@@ -11,7 +11,7 @@ This project will help the user manage his/her expenses. It will allow them to a
 ## Installation
 1. Clone the repo
    ```sh
-   git clone https://github.com/your_username_/Project-Name.git
+   git clone https://github.com/fbrionesgtz/Expenses.git
    ```
 2. Install NPM packages
    ```sh
